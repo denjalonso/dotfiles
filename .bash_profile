@@ -70,6 +70,9 @@ alias npm-update="npx npm-check -u";
 alias lt="pushd ~/code/love-texts && serve || popd";
 alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 
+# Mymoid project specific
+alias mymoid='cd ~/Projects/12-technoactivity-projects/'
+
 ## git aliases
 function gc { git commit -m "$@"; }
 alias gs="git status";
