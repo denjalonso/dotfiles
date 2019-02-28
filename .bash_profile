@@ -69,6 +69,7 @@ function crapp { cp -R ~/.crapp "$@"; }
 alias npm-update="npx npm-check -u";
 alias lt="pushd ~/code/love-texts && serve || popd";
 alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
+alias projects='cd ~/Projects'
 
 # Mymoid project specific
 alias mymoid='cd ~/Projects/12-technoactivity-projects/'
@@ -121,3 +122,5 @@ if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
 fi
 
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+
+[ -s "/Users/dalogon/.jabba/jabba.sh" ] && source "/Users/dalogon/.jabba/jabba.sh"
