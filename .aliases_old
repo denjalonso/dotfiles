@@ -1,0 +1,31 @@
+# My old aliases configuration
+
+# List all files colorized in long format
+alias ll='ls -lh'
+
+# List all files colorized in long format, including dot files
+alias la="ls -lha"
+
+# List only directories
+alias lsd='ls -l | grep "^d"'
+
+# Link to projects dir
+alias projects='cd ~/Projects'
+
+# Link to technoactivity projects
+alias techno='cd ~/Projects/12-technoactivity-projects/'
+
+# Link to mymoid projects dir
+alias mymoid='cd ~/Projects/12-technoactivity-projects/'
+
+# Show dir tree
+alias tree="ls -R | grep ":" | sed -e 's/://' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
+
+# Start local MAMP mysql service
+alias startMysql='/Applications/MAMP/bin/startMysql.sh'
+
+# Stop local MAMP mysql service
+alias stopMysql='/Applications/MAMP/bin/stopMysql.sh'
+
+# Open with intellij idea
+# idea is not an alias, https://gist.github.com/chrisdarroch/7018927 , view /usr/local/bin/idea script
