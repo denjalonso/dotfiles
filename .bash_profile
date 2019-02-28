@@ -78,6 +78,7 @@ alias gf="git fetch";
 alias gpush="git push";
 alias gd="git diff";
 alias ga="git add .";
+alias gst="git stage";
 
 ## npm aliases
 alias ni="npm install";
