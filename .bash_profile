@@ -51,6 +51,9 @@ PATH="$PATH:$HOME/.my_bin";
 # CDPATH ALTERATIONS
 CDPATH=.:$HOME:$HOME/code:$HOME/Desktop
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
 # Custom Aliases
 alias c="code .";
 alias ll="ls -1a";
