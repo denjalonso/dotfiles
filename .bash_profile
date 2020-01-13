@@ -53,6 +53,8 @@ CDPATH=.:$HOME:$HOME/code:$HOME/Desktop
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+export PATH="$PATH:$HOME/.rvm/bin"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # Custom Aliases
 alias c="code .";
@@ -127,3 +129,4 @@ fi
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
 [ -s "/Users/dalogon/.jabba/jabba.sh" ] && source "/Users/dalogon/.jabba/jabba.sh"
+export PATH="/usr/local/opt/ruby/bin:$PATH"
