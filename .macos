@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ~/.macos — https://mths.be/macos
-# Modified by Kent C. Dodds and Denis Alonso
+# Modified by Kent C. Dodds
 # Run without downloading:
 # curl https://raw.githubusercontent.com/denjalonso/dotfiles/master/.macos | bash
 
@@ -33,8 +33,8 @@ jabba install 1.7.80-custom=dmg+https://s3-eu-west-1.amazonaws.com/mymoid-jabba/
 
 echo "Hello $(whoami)! Let's get you set up."
 
-echo "mkdir -p $(HOME)/code"
-mkdir -p "$(HOME)/code"
+echo "mkdir -p ${HOME}/code"
+mkdir -p "${HOME}/code"
 
 echo "installing homebrew"
 # install homebrew https://brew.sh
@@ -48,9 +48,10 @@ echo "brew installing stuff"
 # ffmpeg: eventually I'll need this for something
 # tree: really handy for listing out directories in text
 # bat: A cat(1) clone with syntax highlighting and Git integration.
-brew install git hub libdvdcss ripgrep imagemagick bash-completion watchman tree bat
-# yarn: without node because we'll get it from installing n later
-brew install yarn --without-node
+brew install git hub libdvdcss ripgrep imagemagick watchman tree bat
+
+# installing yarn with bash because it tries to install node when using brew.
+curl -o- -L https://yarnpkg.com/install.sh | bash
 
 echo "installing node (via n-install)"
 curl -L https://git.io/n-install | bash
@@ -64,13 +65,14 @@ npm install --global serve diff-so-fancy fkill-cli npm-quick-run semantic-releas
 echo "installing apps with brew cask"
 brew cask install alfred google-chrome firefox brave-browser bettertouchtool divvy \
 bartender google-drive-file-stream itsycal visual-studio-code 1password dash \
-screenflow marshallofsound-google-play-music-player virtualbox skype rocket \
+screenflow marshallofsound-google-play-music-player skype workflowy \
 sublime-text vlc discord obs handbrake zoomus betterzip avibrazil-rdm sip \
 qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook \
-suspicious-package qlvideo
+suspicious-package qlvideo spotify focus dropbox front qmoji slack synergy
 
 echo "Generating an RSA token for GitHub"
 mkdir -p ~/.ssh
+touch ~/.ssh/config
 ssh-keygen -t rsa -b 4096 -C "denjalonso@gmail.com"
 echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_rsa" | tee ~/.ssh/config
 eval "$(ssh-agent -s)"
@@ -78,7 +80,7 @@ echo "run 'pbcopy < ~/.ssh/id_rsa.pub' and paste that into GitHub"
 
 echo "cloning dotfiles"
 git clone git@github.com:denjalonso/dotfiles.git "${HOME}/dotfiles"
-ln -s "${HOME}/dotfiles/.bash_profile" "${HOME}/.bash_profile"
+ln -s "${HOME}/dotfiles/.zshrc" "${HOME}/.zshrc"
 ln -s "${HOME}/dotfiles/.gitignore_global" "${HOME}/.gitignore_global"
 ln -s "${HOME}/dotfiles/.my_bin" "${HOME}/.my_bin"
 ln -s "${HOME}/dotfiles/.vimrc" "${HOME}/.vimrc"
@@ -225,6 +227,10 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+# enable three finger drag on trackpad
+defaults write http://com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -int 1
+defaults write http://com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -int 1
 
 # Trackpad: map bottom right corner to right-click
 # defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
@@ -881,7 +887,9 @@ echo "Done. Note that some of these changes require a logout/restart to take eff
 printf "TODO:\n\
 install: \n\
   battery indicator (App Store) \n\
-  Euclid (App Store) \n\
+  Gifski (App Store) \n\
+  Runcat (App Store) \n\
+  Todoist (App Store) \n\
   Webcam Settings (App Store) \n\
   Audacity (https://www.audacityteam.org/download/) \n\
 \n\

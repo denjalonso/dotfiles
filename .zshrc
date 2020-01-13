@@ -23,7 +23,9 @@ function random_element {
 # Default Prompt
 setEmoji () {
   EMOJI="$*"
-  PS1="${YELLOW}\w${GREEN}\$(git_branch)${RESET} ${EMOJI}\n$ ";
+  DISPLAY_DIR='$(dirs)'
+  DISPLAY_BRANCH='$(git_branch)'
+  PROMPT="${YELLOW}${DISPLAY_DIR}${GREEN}${DISPLAY_BRANCH}${RESET} ${EMOJI}"$'\n'"$ ";
 }
 
 newRandomEmoji () {
@@ -33,15 +35,38 @@ newRandomEmoji () {
 newRandomEmoji
 
 alias jestify="PS1=\"🃏\n$ \"";
+alias testinglibify="PS1=\"🐙\n$ \"";
 alias cypressify="PS1=\"🌀\n$ \"";
+alias staticify="PS1=\"🚀\n$ \"";
+alias nodeify="PS1=\"💥\n$ \"";
+alias reactify="PS1=\"⚛\n$ \"";
+alias harryify="PS1=\"🧙‍\n$ \"";
+
+# allow substitution in PS1
+setopt promptsubst
 
 # history size
 HISTSIZE=5000
 HISTFILESIZE=10000
 
+SAVEHIST=5000
+setopt EXTENDED_HISTORY
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
+# share history across multiple zsh sessions
+setopt SHARE_HISTORY
+# append to history
+setopt APPEND_HISTORY
+# adds commands as they are typed, not at shell exit
+setopt INC_APPEND_HISTORY
+# do not store duplications
+setopt HIST_IGNORE_DUPS
+
 # PATH ALTERATIONS
 ## Node
 PATH="/usr/local/bin:$PATH:./node_modules/.bin";
+
+## Yarn
+PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # Custom bins
 PATH="$PATH:$HOME/.bin";
@@ -50,6 +75,7 @@ PATH="$PATH:$HOME/.my_bin";
 
 # CDPATH ALTERATIONS
 CDPATH=.:$HOME:$HOME/code:$HOME/Desktop
+# CDPATH=($HOME $HOME/code $HOME/Desktop)
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
@@ -62,8 +88,9 @@ alias ll="ls -1a";
 alias ..="cd ../";
 alias ..l="cd ../ && ll";
 alias pg="echo 'Pinging Google' && ping www.google.com";
-alias vb="vim ~/.bash_profile";
-alias sb="source ~/.bash_profile";
+alias vz="vim ~/.zshrc";
+alias cz="code ~/.zshrc";
+alias sz="source ~/.zshrc";
 alias de="cd ~/Desktop";
 alias d="cd ~/code";
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
@@ -71,9 +98,12 @@ alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall F
 alias deleteDSFiles="find . -name '.DS_Store' -type f -delete"
 alias kcd-oss="npx -p yo -p generator-kcd-oss -c 'yo kcd-oss'";
 function crapp { cp -R ~/.crapp "$@"; }
+function mcrapp { cp -R ~/.mcrapp "$@"; }
 alias npm-update="npx npm-check -u";
+alias yarn-update="yarn upgrade-interactive --latest";
 alias lt="pushd ~/code/love-texts && serve || popd";
 alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
+alias dont_index_node_modules='find . -type d -name "node_modules" -exec touch "{}/.metadata_never_index" \;';
 alias projects='cd ~/Projects'
 
 # Mymoid project specific
@@ -88,6 +118,8 @@ alias gpush="git push";
 alias gd="git diff";
 alias ga="git add .";
 alias gst="git stage";
+dif() { git diff --color --no-index "$1" "$2" | diff-so-fancy; }
+cdiff() { code --diff "$1" "$2"; }
 
 ## npm aliases
 alias ni="npm install";
@@ -104,10 +136,10 @@ alias nioff="npm install --offline";
 
 ## yarn aliases
 alias yar="yarn run";
-alias yas="yarn run start -s --";
-alias yab="yarn run build -s --";
-alias yat="yarn run test -s --";
-alias yav="yarn run validate -s --";
+alias yas="yarn run start";
+alias yab="yarn run build";
+alias yat="yarn run test";
+alias yav="yarn run validate";
 alias yoff="yarn add --offline";
 alias ypm="echo \"Installing deps without lockfile and ignoring engines\" && yarn install --no-lockfile --ignore-engines"
 
@@ -121,10 +153,14 @@ cdl() { cd "$@" && ll; }
 npm-latest() { npm info "$1" | grep latest; }
 killport() { lsof -i tcp:"$*" | awk 'NR!=1 {print $2}' | xargs kill -9 ;}
 
+autoload -Uz compinit && compinit
 # Bash completion
-if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
-. "$(brew --prefix)/etc/bash_completion"
-fi
+# TODO: couldn't get this to work with zsh...
+# autoload bashcompinit
+# bashcompinit
+# if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
+# . "$(brew --prefix)/etc/bash_completion"
+# fi
 
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
