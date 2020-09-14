@@ -23,6 +23,10 @@ Session.vim
 # localhistory
 .history
 
+# Intellij idea
+
+.idea
+
 # PayPal project specific stuff
 .nvmrc
 .agignore
