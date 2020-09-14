@@ -86,7 +86,8 @@ export PATH="$PATH:$HOME/.rvm/bin"
 SCARF_ANALYTICS=false
 
 # Custom Aliases
-alias code="\"/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin/code\""
+alias codevs="\"/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin/code\""
+alias codei="open -na \"IntelliJ IDEA.app\""
 alias c="code .";
 alias ll="ls -1a";
 alias ..="cd ../";
