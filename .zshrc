@@ -34,13 +34,13 @@ newRandomEmoji () {
 
 newRandomEmoji
 
-alias jestify="PS1=\"🃏\n$ \"";
-alias testinglibify="PS1=\"🐙\n$ \"";
-alias cypressify="PS1=\"🌀\n$ \"";
-alias staticify="PS1=\"🚀\n$ \"";
-alias nodeify="PS1=\"💥\n$ \"";
-alias reactify="PS1=\"⚛\n$ \"";
-alias harryify="PS1=\"🧙‍\n$ \"";
+alias jestify="PS1=\"🃏\"$'\n'\"$ \"";
+alias testinglibify="PS1=\"🐙\"$'\n'\"$ \"";
+alias cypressify="PS1=\"🌀\"$'\n'\"$ \"";
+alias staticify="PS1=\"🚀\"$'\n'\"$ \"";
+alias nodeify="PS1=\"💥\"$'\n'\"$ \"";
+alias reactify="PS1=\"⚛️\"$'\n'\"$ \"";
+alias harryify="PS1=\"🧙‍\"$'\n'\"$ \"";
 
 # allow substitution in PS1
 setopt promptsubst
@@ -82,7 +82,11 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$PATH:$HOME/.rvm/bin"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+# disable https://scarf.sh/
+SCARF_ANALYTICS=false
+
 # Custom Aliases
+alias code="\"/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin/code\""
 alias c="code .";
 alias ll="ls -1a";
 alias ..="cd ../";
@@ -152,6 +156,16 @@ shorten() { node ~/code/kcd.im/node_modules/.bin/netlify-shortener "$1" "$2"; }
 cdl() { cd "$@" && ll; }
 npm-latest() { npm info "$1" | grep latest; }
 killport() { lsof -i tcp:"$*" | awk 'NR!=1 {print $2}' | xargs kill -9 ;}
+function quit () {
+  if [ -z "$1" ]; then
+    # display usage if no parameters given
+    echo "Usage: quit appname"
+  else
+    for appname in $1; do
+    osascript -e 'quit app "'$appname'"'
+    done
+  fi
+}
 
 autoload -Uz compinit && compinit
 # Bash completion
