@@ -3,6 +3,8 @@
 export TERM=xterm-256color
 export CLICOLOR=1
 export LSCOLORS=Fafacxdxbxegedabagacad
+export IDEA_LAUNCHER_DEBUG=true
+
 
 # PROMPT STUFF
 GREEN=$(tput setaf 2);
@@ -34,6 +36,7 @@ newRandomEmoji () {
 
 newRandomEmoji
 
+alias remixify="PS1=\"💿\"$'\n'\"$ \"";
 alias jestify="PS1=\"🃏\"$'\n'\"$ \"";
 alias testinglibify="PS1=\"🐙\"$'\n'\"$ \"";
 alias cypressify="PS1=\"🌀\"$'\n'\"$ \"";
@@ -41,6 +44,9 @@ alias staticify="PS1=\"🚀\"$'\n'\"$ \"";
 alias nodeify="PS1=\"💥\"$'\n'\"$ \"";
 alias reactify="PS1=\"⚛️\"$'\n'\"$ \"";
 alias harryify="PS1=\"🧙‍\"$'\n'\"$ \"";
+
+# ripgrep config
+RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 # allow substitution in PS1
 setopt promptsubst
@@ -67,28 +73,32 @@ PATH="/usr/local/bin:$PATH:./node_modules/.bin";
 
 ## Yarn
 PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+# alias yarn="echo update the PATH in ~/.zshrc"
 
 # Custom bins
 PATH="$PATH:$HOME/.bin";
 # dotfile bins
 PATH="$PATH:$HOME/.my_bin";
+# npm.im/n
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *"$N_PREFIX/bin"* ]] || PATH="$N_PREFIX/bin:$PATH"  # Added by n-install (see http://git.io/n-install-repo).
+
+# script kit
+PATH="$PATH:$HOME/.kenv/bin:$HOME/.kit/bin";
+
+# fly manual install
+PATH="$HOME/.fly/bin:$PATH";
 
 # CDPATH ALTERATIONS
 CDPATH=.:$HOME:$HOME/code:$HOME/Desktop
-# CDPATH=($HOME $HOME/code $HOME/Desktop)
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-export PATH="$PATH:$HOME/.rvm/bin"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+# CDPATH=.:$HOME:$HOME/code:$HOME/code/epic-react:$HOME/code/testingjavascript:$HOME/Desktop
 
 # disable https://scarf.sh/
 SCARF_ANALYTICS=false
 
 # Custom Aliases
-alias codevs="\"/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin/code\""
-alias codei="open -na \"IntelliJ IDEA.app\""
-alias c="code .";
+alias codevs="\"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code\""
+alias codei="cd /Applications && ./IntelliJ\ IDEA.app/Contents/MacOS/idea"
+function c { code ${@:-.} }
 alias ll="ls -1a";
 alias ..="cd ../";
 alias ..l="cd ../ && ll";
@@ -102,17 +112,19 @@ alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall 
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 alias deleteDSFiles="find . -name '.DS_Store' -type f -delete"
 alias kcd-oss="npx -p yo -p generator-kcd-oss -c 'yo kcd-oss'";
-function crapp { cp -R ~/.crapp "$@"; }
-function mcrapp { cp -R ~/.mcrapp "$@"; }
-alias npm-update="npx npm-check -u";
+function rmx {
+  cp -R ~/.rmx "$@";
+  cd "$@";
+}
+alias npm-update="npx npm-check-updates --dep prod,dev --upgrade";
 alias yarn-update="yarn upgrade-interactive --latest";
-alias lt="pushd ~/code/love-texts && serve || popd";
 alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 alias dont_index_node_modules='find . -type d -name "node_modules" -exec touch "{}/.metadata_never_index" \;';
+alias check-nodemon="ps aux | rg -i '.bin/nodemon'";
 alias projects='cd ~/Projects'
 
-# Mymoid project specific
-alias mymoid='cd ~/Projects/12-technoactivity-projects/'
+# Salsa project specific
+alias salsa='cd ~/Projects/15-salsa/'
 
 ## git aliases
 function gc { git commit -m "$@"; }
@@ -122,7 +134,6 @@ alias gf="git fetch";
 alias gpush="git push";
 alias gd="git diff";
 alias ga="git add .";
-alias gst="git stage";
 dif() { git diff --color --no-index "$1" "$2" | diff-so-fancy; }
 cdiff() { code --diff "$1" "$2"; }
 
@@ -135,7 +146,7 @@ alias nrt="npm run test -s --";
 alias nrtw="npm run test:watch -s --";
 alias nrv="npm run validate -s --";
 alias rmn="rm -rf node_modules";
-alias flush-npm="rm -rf node_modules && npm i && say NPM is done";
+alias flush-npm="rm -rf node_modules package-lock.json && npm i && say NPM is done";
 alias nicache="npm install --prefer-offline";
 alias nioff="npm install --offline";
 
@@ -153,7 +164,6 @@ alias git=hub
 
 # Custom functions
 mg () { mkdir "$@" && cd "$@" || exit; }
-shorten() { node ~/code/kcd.im/node_modules/.bin/netlify-shortener "$1" "$2"; }
 cdl() { cd "$@" && ll; }
 npm-latest() { npm info "$1" | grep latest; }
 killport() { lsof -i tcp:"$*" | awk 'NR!=1 {print $2}' | xargs kill -9 ;}
@@ -168,17 +178,16 @@ function quit () {
   fi
 }
 
-autoload -Uz compinit && compinit
-# Bash completion
-# TODO: couldn't get this to work with zsh...
-# autoload bashcompinit
-# bashcompinit
-# if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
-# . "$(brew --prefix)/etc/bash_completion"
-# fi
-fpath=($(brew --prefix)/share/zsh-completions $fpath)
+gif() {
+  ffmpeg -i "$1" -vf "fps=25,scale=iw/2:ih/2:flags=lanczos,palettegen" -y "/tmp/palette.png"
+  ffmpeg -i "$1" -i "/tmp/palette.png" -lavfi "fps=25,scale=iw/2:ih/2:flags=lanczos [x]; [x][1:v] paletteuse" -f image2pipe -vcodec ppm - | convert -delay 4 -layers Optimize -loop 0 - "${1%.*}.gif"
+}
 
-export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+# zsh auto autocomplete
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+source ~/.zshrc.private
 
 [ -s "/Users/dalogon/.jabba/jabba.sh" ] && source "/Users/dalogon/.jabba/jabba.sh"
 export PATH="/usr/local/opt/ruby/bin:$PATH"

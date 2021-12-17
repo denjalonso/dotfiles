@@ -19,10 +19,6 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # denjalonso's Customizations                                                 #
 ###############################################################################
 
-
-# Node version manager
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-
 # Java version manager
 curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh
 jabba install 1.7.80-custom=dmg+https://s3-eu-west-1.amazonaws.com/mymoid-jabba/jdk-7u80-macosx-x64.dmg
@@ -38,7 +34,10 @@ mkdir -p "${HOME}/code"
 
 echo "installing homebrew"
 # install homebrew https://brew.sh
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/kentcdodds/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 echo "brew installing stuff"
 # hub: a github-specific version of git
@@ -48,9 +47,11 @@ echo "brew installing stuff"
 # ffmpeg: eventually I'll need this for something
 # tree: really handy for listing out directories in text
 # bat: A cat(1) clone with syntax highlighting and Git integration.
+# delta: A fantastic diff tool
 # switchaudio-osx: allows me to switch the audio device via the command line
+# pgcli: postgres CLI
 brew install git hub libdvdcss ripgrep imagemagick watchman tree bat \
-delta switchaudio-osx
+git-delta switchaudio-osx pgcli ffmpeg
 
 echo "installing node (via n-install)"
 curl -L https://git.io/n-install | bash
@@ -62,21 +63,21 @@ echo "installing a few global npm packages"
 npm install --global serve fkill-cli npm-quick-run \
 semantic-release-cli npm-check-updates
 
-echo "installing apps with brew cask"
-brew cask install alfred google-chrome firefox brave-browser bettertouchtool divvy \
-bartender google-drive-file-stream itsycal visual-studio-code 1password dash \
-screenflow marshallofsound-google-play-music-player skype workflowy \
-sublime-text vlc discord obs handbrake zoomus betterzip avibrazil-rdm sip \
+echo "installing apps with brew --cask"
+brew install --cask alfred google-chrome firefox brave-browser bettertouchtool divvy \
+bartender itsycal visual-studio-code 1password dash screenflow skype workflowy \
+sublime-text vlc discord obs handbrake zoom betterzip avibrazil-rdm sip \
 qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook \
-suspicious-package qlvideo spotify focus dropbox front qmoji slack
+suspicious-package qlvideo spotify focus dropbox front slack openaudible \
+todoist audacity docker another-redis-desktop-manager loopback kid3
 
-echo "Generating an RSA token for GitHub"
-mkdir -p ~/.ssh
-touch ~/.ssh/config
-ssh-keygen -t rsa -b 4096 -C "denjalonso@gmail.com"
-echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_rsa" | tee ~/.ssh/config
+echo "Generating a new SSH key for GitHub"
+ssh-keygen -t ed25519 -C "me+github@denjalonso.com" -f ~/.ssh/id_ed25519
 eval "$(ssh-agent -s)"
-echo "run 'pbcopy < ~/.ssh/id_rsa.pub' and paste that into GitHub"
+touch ~/.ssh/config
+echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config
+ssh-add -K ~/.ssh/id_ed25519
+echo "run 'pbcopy < ~/.ssh/id_ed25519.pub' and paste that into GitHub"
 
 echo "cloning dotfiles"
 git clone git@github.com:denjalonso/dotfiles.git "${HOME}/dotfiles"
@@ -86,6 +87,7 @@ ln -s "${HOME}/dotfiles/.gitconfig" "${HOME}/.gitconfig"
 ln -s "${HOME}/dotfiles/.my_bin" "${HOME}/.my_bin"
 ln -s "${HOME}/dotfiles/.vimrc" "${HOME}/.vimrc"
 ln -s "${HOME}/dotfiles/.vimrc-parts" "${HOME}/.vimrc-parts"
+ln -s "${HOME}/dotfiles/.ripgreprc" "${HOME}/.ripgreprc"
 
 # get bat and delta all configured
 mkdir -p "${HOME}/.config/bat/themes"
@@ -894,11 +896,7 @@ echo "Done. Note that some of these changes require a logout/restart to take eff
 printf "TODO:\n\
 install: \n\
   battery indicator (App Store) \n\
-  Gifski (App Store) \n\
   Runcat (App Store) \n\
-  Todoist (App Store) \n\
-  Webcam Settings (App Store) \n\
-  Audacity (https://www.audacityteam.org/download/) \n\
 \n\
 Restart Terminal.app\n\
 copy git config from your backup/re-login \n\

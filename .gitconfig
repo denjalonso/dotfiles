@@ -19,6 +19,7 @@
   default = current
 [core]
   pager = delta --theme="night-owlish"
+	excludesfile = /Users/dalogon/.gitignore_global
 [interactive]
     diffFilter = delta --color-only
 [color]
@@ -35,3 +36,10 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
