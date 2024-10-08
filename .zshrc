@@ -31,7 +31,7 @@ setEmoji () {
 }
 
 newRandomEmoji () {
-  setEmoji "$(random_element 😅 👽 🔥 🚀 👻 ⛄ 👾 🍔 😄 🍰 🐑 😎 🏎 🤖 😇 😼 💪 🦄 🥓 🌮 🎉 💯 ⚛️ 🐠 🐳 🐿 🥳 🤩 🤯 🤠 👨‍💻 🦸‍ 🧝‍ 🧞‍ 🧙‍ 👨‍🚀 👨‍🔬 🕺 🦁 🐶 🐵 🐻 🦊 🐙 🦎 🦖 🦕 🦍 🦈 🐊 🦂 🐍 🐢 🐘 🐉 🦚 ✨ ☄️ ⚡️ 💥 💫 🧬 🔮 ⚗️ 🎊 🔭 ⚪️ 🔱)"
+  setEmoji "$(random_element 😅 👽 🔥 🚀 👻 ⛄ 👾 🍔 😄 🍰 🐑 😎 🏎 🤖 😇 😼 💪 🦄 🥓 🌮 🎉 💯 ⚛️ 🐠 🐳 🐿 🥳 🤩 🤯 🤠 👨‍💻 🦸‍ 🧝‍ 🧞‍ 🧙‍ 🧑‍🚀 👨‍🔬 🕺 🦁 🐶 🐵 🐻 🦊 🐙 🦎 🦖 🦕 🦍 🦈 🐊 🦂 🐍 🐢 🐘 🐉 🦚 ✨ ☄️ ⚡️ 💥 💫 🧬 🔮 ⚗️ 🎊 🔭 ⚪️ 🔱)"
 }
 
 newRandomEmoji
@@ -40,8 +40,9 @@ alias remixify="PS1=\"💿\"$'\n'\"$ \"";
 alias jestify="PS1=\"🃏\"$'\n'\"$ \"";
 alias testinglibify="PS1=\"🐙\"$'\n'\"$ \"";
 alias cypressify="PS1=\"🌀\"$'\n'\"$ \"";
-alias staticify="PS1=\"🚀\"$'\n'\"$ \"";
+alias epicify="PS1=\"🚀\"$'\n'\"$ \"";
 alias nodeify="PS1=\"💥\"$'\n'\"$ \"";
+alias flyify="PS1=\"🎈\"$'\n'\"$ \"";
 alias reactify="PS1=\"⚛️\"$'\n'\"$ \"";
 alias harryify="PS1=\"🧙‍\"$'\n'\"$ \"";
 
@@ -68,15 +69,20 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 
 # PATH ALTERATIONS
-## Node
-PATH="/usr/local/bin:$PATH:./node_modules/.bin";
+PATH="/usr/local/bin:$PATH";
+
+## node_modules 😆 this is *way* faster than using "npm prefix" and it works fine.
+PATH="$PATH:./node_modules/.bin:../node_modules/.bin:../../node_modules/.bin:../../../node_modules/.bin:../../../../node_modules/.bin:../../../../../node_modules/.bin:../../../../../../node_modules/.bin:../../../../../../../node_modules/.bin"
+
+## Deno
+PATH="/Users/denis.alonso/.deno/bin:$PATH"
 
 ## Yarn
 PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-# alias yarn="echo update the PATH in ~/.zshrc"
+alias yarn="echo update the PATH in ~/.zshrc"
 
 # Custom bins
-PATH="$PATH:$HOME/.bin";
+PATH="$PATH:$HOME/.bin:$HOME/.local/bin";
 # dotfile bins
 PATH="$PATH:$HOME/.my_bin";
 # npm.im/n
@@ -89,16 +95,37 @@ PATH="$PATH:$HOME/.kenv/bin:$HOME/.kit/bin";
 PATH="$HOME/.fly/bin:$PATH";
 
 # CDPATH ALTERATIONS
-CDPATH=.:$HOME:$HOME/code:$HOME/Desktop
-# CDPATH=.:$HOME:$HOME/code:$HOME/code/epic-react:$HOME/code/testingjavascript:$HOME/Desktop
+CDPATH=.:$HOME:$HOME/code:$HOME/code/epicweb-dev:$HOME/code/epic-react:$HOME/code/testingjavascript:$HOME/Desktop
 
 # disable https://scarf.sh/
 SCARF_ANALYTICS=false
 
 # Custom Aliases
-alias codevs="\"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code\""
-alias codei="cd /Applications && ./IntelliJ\ IDEA.app/Contents/MacOS/idea"
-function c { code ${@:-.} }
+# alias code="\"/Applications/Cursor.app/Contents/Resources/app/bin/cursor\""
+# I usually use Idea Command line launcher:
+#    You can open a file in IntelliJ IDEA directly from the terminal using the `idea` command. Here's how to do it:
+
+#    1. **Ensure `idea` command-line tool is enabled**:
+#       - Open IntelliJ IDEA.
+#       - Go to `Tools > Create Command-line Launcher`.
+#       - Confirm the path and click OK (this will set up the `idea` command globally).
+
+#    2. **Open a file**:
+#       Once the `idea` command is available, open a file by running:
+
+#       ```bash
+#       idea path/to/your/file
+#       ```
+
+#    3. **Open the entire project**:
+#       You can also open a project folder:
+
+#       ```bash
+#       idea path/to/your/project
+#       ```
+
+#    That's it!
+function c { code ${@:-.} } # I don't know if this make sense
 alias ll="ls -1a";
 alias ..="cd ../";
 alias ..l="cd ../ && ll";
@@ -121,10 +148,10 @@ alias yarn-update="yarn upgrade-interactive --latest";
 alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 alias dont_index_node_modules='find . -type d -name "node_modules" -exec touch "{}/.metadata_never_index" \;';
 alias check-nodemon="ps aux | rg -i '.bin/nodemon'";
-alias projects='cd ~/Projects'
+alias projects='cd ~/code'
 
 # Salsa project specific
-alias salsa='cd ~/Projects/15-salsa/'
+alias salsa='cd ~/code/factorial/'
 
 ## git aliases
 function gc { git commit -m "$@"; }
@@ -189,5 +216,9 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 source ~/.zshrc.private
 
-[ -s "/Users/dalogon/.jabba/jabba.sh" ] && source "/Users/dalogon/.jabba/jabba.sh"
-export PATH="/usr/local/opt/ruby/bin:$PATH"
+# bun completions
+[ -s "/Users/kentcdodds/.bun/_bun" ] && source "/Users/kentcdodds/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
