@@ -66,6 +66,7 @@ brew "stripe/stripe-cli/stripe"
 # --- Apps: terminal y editores -----------------------------------------------
 cask "iterm2"
 cask "visual-studio-code"
+cask "superset"            # terminal para agentes (superset.sh)
 # cask "cursor"             # lo que usa Kent ahora; opcional
 cask "jetbrains-toolbox"    # IntelliJ IDEA + comando `idea`
 cask "sublime-text"
@@ -75,7 +76,6 @@ cask "docker-desktop"       # necesario para Docker Sandboxes (no vale OrbStack)
 cask "postman"
 cask "dbeaver-community"
 cask "mongodb-compass"
-cask "github"               # GitHub Desktop
 cask "claude"
 cask "chatgpt"
 cask "runjs"
@@ -89,9 +89,6 @@ cask "the-unarchiver"
 cask "obsidian"
 cask "notion"
 cask "deepl"
-cask "clipy"
-cask "rocket"               # emojis con :
-cask "flux-app"
 cask "pdf-expert"
 cask "grammarly-desktop"
 cask "wispr-flow"
@@ -100,19 +97,11 @@ cask "wispr-flow"
 cask "google-chrome"
 cask "firefox"
 cask "brave-browser"
-cask "microsoft-edge"
 cask "slack"
-cask "microsoft-teams"
-cask "zoom"
 cask "discord"
 cask "linear-linear"
-cask "trello"
 
 # --- Apps: red / acceso remoto ------------------------------------------------
-cask "cloudflare-warp"
-cask "twingate"
-cask "anydesk"
-cask "filezilla"
 cask "logi-options+"
 
 # --- Apps: certificados / administración española -----------------------------
@@ -121,7 +110,7 @@ cask "autofirma"
 
 # --- Apps: multimedia ---------------------------------------------------------
 cask "vlc"
-cask "obs"
+# cask "cap"                # grabador de pantalla simple (lo usa Kent)
 
 # --- App Store ----------------------------------------------------------------
 # mas "Xcode", id: 497799835

@@ -131,7 +131,6 @@ killall Finder Dock 2>/dev/null || true
 
 say "Listo. Pendiente a mano:"
 cat <<'EOF'
-  - Abrir iTerm2 y, si quieres, importar el perfil (Preferences → General → Load from ~/dotfiles/iterm2)
   - JetBrains Toolbox → Settings → Shell scripts → habilitar (da el comando `idea`)
   - gh auth login
   - Docker Desktop → arrancar una vez y aceptar
