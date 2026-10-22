@@ -1,0 +1,13 @@
+# Brewfile.personal — solo en el Mac personal.  `./install.sh --personal`
+cask "spotify"
+cask "whatsapp"
+cask "telegram"
+cask "microsoft-excel"
+cask "virtualbox"
+cask "handbrake"
+cask "gopro-player"
+# cask "sketch"
+# cask "zeplin"
+# mas "Keynote", id: 409183694
+# mas "Numbers", id: 409203825
+# mas "Pages", id: 409201541

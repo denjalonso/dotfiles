@@ -1,0 +1,66 @@
+# gitconfig → ~/.gitconfig — común a todos los Macs.
+# La identidad (name/email) NO va aquí: vive en ~/.gitconfig.local, que crea
+# install.sh. Así el M3 firma como denis@beta.barcelona y el M1 como el personal
+# sin tocar el repo.
+
+[include]
+	path = ~/.gitconfig.local
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = true
+[branch]
+	autosetuprebase = always
+[push]
+	default = current
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[rebase]
+	autoStash = true
+
+[alias]
+	rh = reset --hard HEAD
+	b = checkout -b
+	co = checkout
+	ca = commit -a --verbose
+	cp = cherry-pick
+	amend = commit -a --amend --no-edit
+	unstage = reset --soft HEAD
+	cdiff = "!git diff $1 $1^"
+	hist = log --graph --pretty=format:'%Cred%h%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)%Creset [%an]' --abbrev-commit --date=relative
+	branches = branch -a
+	remotes = remote -v
+
+[core]
+	excludesfile = ~/.gitignore_global
+	autocrlf = input
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+	syntax-theme = night-owlish
+[merge]
+	conflictstyle = zdiff3
+[diff]
+	colorMoved = default
+
+[color]
+	ui = true
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential

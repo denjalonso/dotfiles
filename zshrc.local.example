@@ -1,0 +1,12 @@
+# ~/.zshrc.local — configuración de ESTE Mac (no va al repo).
+# install.sh copia este archivo a ~/.zshrc.local si no existe. Edítalo allí.
+
+# --- Mac personal (M1) -------------------------------------------------------
+# alias salsa='cd ~/Projects/15-salsa/'
+# SDKMAN (Java/Kotlin fuera de IntelliJ). Debe ir al final del archivo.
+# export SDKMAN_DIR="$HOME/.sdkman"
+# [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+
+# --- Mac del trabajo (M3, Beta Software) ------------------------------------
+# alias beta='cd ~/Projects/beta'
+# export AWS_PROFILE=beta
