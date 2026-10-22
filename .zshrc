@@ -69,7 +69,9 @@ setopt HIST_IGNORE_DUPS
 
 # PATH ALTERATIONS
 ## Node
-PATH="/usr/local/bin:$PATH:./node_modules/.bin";
+# /opt/homebrew/bin first so Apple-Silicon Homebrew shadows the stale Intel
+# Homebrew in /usr/local/bin (e.g. its git 2.20.1, too old for lefthook).
+PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:$PATH:./node_modules/.bin";
 
 ## Yarn
 PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
@@ -122,6 +124,17 @@ alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 alias dont_index_node_modules='find . -type d -name "node_modules" -exec touch "{}/.metadata_never_index" \;';
 alias check-nodemon="ps aux | rg -i '.bin/nodemon'";
 alias projects='cd ~/Projects'
+
+# Mac setup for pomo: https://gist.github.com/bashbunni/f6b04fc4703903a71ce9f70c58345106
+alias work="timer 60m && terminal-notifier -message 'Pomodoro'\
+        -title 'Work Timer is up! Take a Break 😊'\
+        -appIcon '~/Pictures/pumpkin.png'\
+        -sound Crystal"
+
+alias rest="timer 10m && terminal-notifier -message 'Pomodoro'\
+        -title 'Break is over! Get back to work 😬'\
+        -appIcon '~/Pictures/pumpkin.png'\
+        -sound Crystal"
 
 # Salsa project specific
 alias salsa='cd ~/Projects/15-salsa/'
@@ -191,3 +204,35 @@ source ~/.zshrc.private
 
 [ -s "/Users/dalogon/.jabba/jabba.sh" ] && source "/Users/dalogon/.jabba/jabba.sh"
 export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+# bit
+export PATH="$PATH:/Users/dalogon/bin"
+# bit endexport PATH=$HOME/bin:$PATH
+# infrastructure-utils
+setopt prompt_subst
+export PS1='$AWS_PROMPT'$PS1
+
+# plz-cli openai api key: https://github.com/m1guelpf/plz-cli
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+export PATH="$HOME/.local/bin:$PATH"
+
+
+# Requires https://github.com/caarlos0/timer to be installed
+
+# Mac setup for pomo
+alias work="timer 25m && terminal-notifier -message 'Pomodoro'\
+        -title 'Work Timer is up! Take a Break 😊'\
+        -appIcon '~/Pictures/pumpkin.png'\
+        && afplay /System/Library/Sounds/Glass.aiff"
+
+alias rest="timer 5m && terminal-notifier -message 'Pomodoro'\
+        -title 'Break is over! Get back to work 😬'\
+        -appIcon '~/Pictures/pumpkin.png'\
+        && afplay /System/Library/Sounds/Glass.aiff"
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+export NODE_OPTIONS="--dns-result-order=ipv4first"
