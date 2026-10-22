@@ -28,10 +28,10 @@ fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 say "brew bundle (Brewfile)"
-brew bundle --file="$DOTFILES/Brewfile" --no-lock || true
+brew bundle --file="$DOTFILES/Brewfile" || true
 if [ "$PERSONAL" = 1 ]; then
   say "brew bundle (Brewfile.personal)"
-  brew bundle --file="$DOTFILES/Brewfile.personal" --no-lock || true
+  brew bundle --file="$DOTFILES/Brewfile.personal" || true
 fi
 
 # ------------------------------------------------------------------- symlinks
