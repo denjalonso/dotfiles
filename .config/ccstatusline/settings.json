@@ -1,13 +1,34 @@
 {
-  "version": 3,
+  "version": 4,
   "lines": [
     [
       {
         "id": "1",
-        "type": "context-percentage",
+        "type": "context-length",
         "color": "yellow",
         "bold": true,
         "rawValue": true
+      },
+      {
+        "id": "2",
+        "type": "custom-text",
+        "customText": "(",
+        "color": "brightBlack",
+        "merge": "no-padding"
+      },
+      {
+        "id": "3",
+        "type": "context-percentage",
+        "color": "brightBlack",
+        "rawValue": true,
+        "merge": "no-padding"
+      },
+      {
+        "id": "4",
+        "type": "custom-text",
+        "customText": ")",
+        "color": "brightBlack",
+        "merge": "no-padding"
       }
     ],
     [],
@@ -16,11 +37,14 @@
   "flexMode": "full-minus-40",
   "compactThreshold": 60,
   "colorLevel": 2,
+  "defaultSeparator": " ",
   "inheritSeparatorColors": false,
   "globalBold": false,
   "powerline": {
     "enabled": false,
-    "separators": [""],
+    "separators": [
+      " "
+    ],
     "separatorInvertBackground": [
       false
     ],

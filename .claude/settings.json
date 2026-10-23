@@ -1,6 +1,175 @@
 {
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-dangerous-git.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Artifact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/artifact-guard.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/artifact-guard.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-wrapper.sh"
+  },
+  "enabledPlugins": {
+    "supabase@claude-plugins-official": true,
+    "figma@claude-plugins-official": true,
+    "mattpocock-skills@claude-plugins-official": true
+  },
+  "effortLevel": "medium",
+  "tui": "fullscreen",
+  "autoMemoryEnabled": false,
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "agentPushNotifEnabled": true,
+  "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(kubectl * -n restore-prod-to-pre:*)"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: Beta-Software-SL (GitHub org hosting this repo; no other org context configured)",
+      "**Cloud provider(s)**: Cloudflare (R2 object storage, per .env.example) — no other cloud provider configured",
+      "**Repository visibility**: private (confirmed via gh: Beta-Software-SL/summa-website)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: CI secrets referenced by name only (GITHUB_TOKEN, PROD_SSH_HOST, PROD_SSH_KEY, PROD_SSH_USER, STAGING_SSH_HOST, STAGING_SSH_KEY, STAGING_SSH_USER) — values not gathered; treat as credentials, never print or exfiltrate",
+      "**Default / protected branches**: Default branch is `main` (via gh); no classic branch protection listed and rulesets not queryable here — do not assume unprotected, treat `main` as protected in practice",
+      "**CI/CD deploy targets**: Staging and production SSH deploy targets referenced via STAGING_SSH_HOST/PROD_SSH_HOST secrets in CI; deploy/preprod, deploy/prod, deploy/staging directories with .env.example files present in-repo",
+      "**Network posture**: None configured",
+      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine with open internet",
+      "**Source control**: The summa-website repo (github.com:Beta-Software-SL/summa-website.git) and its origin remote only",
+      "**Trusted internal domains**: summa.local.com, summa.beta.ooo, summa-pre.beta.ooo, summabranding.com, cdn.summabranding.com, pre.summabranding.com (dev/staging/production hosts contacted routinely in this project's sessions)",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: summa-flame.vercel.app (preview deployment host seen in usage)",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: .env, .env.example, .sandcastle/.env, .sandcastle/.env.example, deploy/preprod/.env.example, deploy/prod/.env.example, deploy/staging/.env.example, docs/adr/0010-per-environment-credential-isolation.md, docs/research/sandcastle-sandbox-provider-and-credentials.md — any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; share only with audiences cleared at the named+specifics bar",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment — includes the `restore-prod-to-pre` k8s namespace seen in usage, and PROD_SSH_HOST/PROD_SSH_USER deploy targets",
+      "**Protected deployment namespaces / environments**: k8s namespace `restore-prod-to-pre`; deploy/prod directory and its .env.example; any namespace/host carrying `prod` or `production` as a whole word or segment",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development (Next.js/PayloadCMS website work on summa-website)",
+      "**Trusted repo**: /Users/dalogon/code/beta/summa-website (github.com:Beta-Software-SL/summa-website.git, private) — confidential material may be committed here, but content ported from other repos (e.g. summa-v0-Prototype) or read from outside this session's repo is not this repo's own work",
+      "**Org-specific CLIs**: None configured",
+      "routine under this repo's `docs/`, `.claude/`, and `deploy/*/` prefixes for research notes, skills, and deploy config edits"
+    ]
   }
 }
